@@ -1,51 +1,35 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import {Link, graphql, useStaticQuery} from "gatsby"
 
-import Header from "./header"
-import "./layout.css"
-
-const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
+export default function Layout({children}) {
+    const data = useStaticQuery(graphql`
+        query LayoutQuery {
+            site {
+                siteMetadata {
+                    title
+                }
+            }
         }
-      }
-    }
-  `)
-
-  return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
-    </>
-  )
+    `)
+    return (
+        <>
+            <header id="globalHeader">
+                <h1>{data.site.siteMetadata.title} &hearts;</h1>
+                <div className="flex">
+                    <p>
+                    <Link to="/">Home</Link> | <Link to="/animal-grid">Animal Grid</Link>
+                    </p>
+                    <p>
+                    <em>Page last updated: <time dateTime="2020-05-29">29 May 2020</time></em>
+                    </p>
+                </div>
+            </header>
+            <main>
+                {children}
+            </main>
+            <footer>
+                &copy; 2020 Rainier McCheddarton
+            </footer>
+        </>
+    )
 }
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default Layout
